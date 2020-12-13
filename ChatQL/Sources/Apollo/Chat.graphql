@@ -1,0 +1,23 @@
+query GetChat {
+    chats {
+        id
+        from
+        message
+    }
+}
+
+subscription Chat {
+    messageSent {
+        id
+        from
+        message
+    }
+}
+
+mutation SendMessage($from: String!, $message: String!) {
+    sendMessage(from: $from, message: $message) {
+        id
+        from
+        message
+    }
+}
