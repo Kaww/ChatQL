@@ -17,15 +17,16 @@ struct ChatView: View {
             NavigationView {
                 ScrollView {
                     LazyVStack {
-                        ForEach(viewModel.chat) { message in
-                            switch message.from {
-                            case viewModel.config.me:
-                                MeMessageBubbleView(message: message)
-                            case viewModel.config.friend:
-                                FriendMessageBubleView(message: message)
-                            default:
-                                Text("Unknown")
-                            }
+                        ForEach(viewModel.chat, id: \.id) { message in
+                            MessageBubbleView(message: message, isMe: message.from == viewModel.config.me)
+//                            switch message.from {
+//                            case viewModel.config.me:
+//                                MeMessageBubbleView(message: message)
+//                            case viewModel.config.friend:
+//                                FriendMessageBubleView(message: message)
+//                            default:
+//                                Text("Unknown")
+//                            }
                         }
                     }
                     .padding(.top, 20)
@@ -40,6 +41,32 @@ struct ChatView: View {
             
             ComposeBarView(viewModel: viewModel)
         }
+    }
+}
+
+struct MessageBubbleView: View {
+    @State var message: ChatViewModel.Message
+    var isMe: Bool
+    
+    var body: some View {
+        HStack {
+            if isMe {
+                Color.clear.frame(width: 100)
+            }
+            
+            Text(message.message)
+                .padding(10)
+                .background(isMe ? Color(UIColor.systemBlue) : Color("ChatFriendColor"))
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .foregroundColor(isMe ? .white : Color("DefaultText"))
+            
+            if !isMe {
+                Color.clear.frame(width: 100)
+            }
+        }
+        .padding(isMe ? .trailing : .leading, 20)
+        .frame(maxWidth: .infinity, alignment: isMe ? .trailing : .leading)
+        .animation(.spring(response: 0.3, dampingFraction: 0.7, blendDuration: 0))
     }
 }
 
