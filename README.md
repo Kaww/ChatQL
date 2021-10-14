@@ -6,6 +6,8 @@ The API used have been developped by Chimezie Enyinnaya. [Link to his Github's r
 
 Do refer to his repository's readme for setup instructions.
 
+![Screenshot](./chatql.png)
+
 ## Apollo + iOS
 
 I'm using Apollo to manage the GraphQL business on the app side, installed with Swift Package Manager.
